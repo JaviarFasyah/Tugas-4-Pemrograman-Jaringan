@@ -1,5 +1,6 @@
 {{ define "edit" }}
 {{ template "header" }}
+    <p><a href="/"><button>Back</button></a></p>
     <form method="POST" action="update">
         <input type="hidden" name="id" value="{{ .ID }}" />
         <table>

@@ -1,13 +1,14 @@
 {{ define "index" }}
 {{ template "header" }}
+  <p><a href="/new"><button>New</button></a></p>
     <table border="1">
       <thead>
       <tr>
-        <td>Nama</td>
-        <td>Email</td>
-        <td>No Telp</td>
-        <td>Alamat</td>
-        <td>Aksi</td>
+        <th>Nama</th>
+        <th>Email</th>
+        <th>No Telp</th>
+        <th>Alamat</th>
+        <th>Aksi</th>
       </tr>
        </thead>
        <tbody>
@@ -18,8 +19,8 @@
         <td>{{ .NoTlp }}</td>
         <td>{{ .Alamat }}</td>
         <td>
-          <a href="/edit?id={{ .ID }}">Edit</a> | 
-          <a href="/delete?id={{ .ID }}" onclick="return confirm('You are going to delete {{ .Nama }}, are you sure?')" >Delete</a>
+          <a href="/edit?id={{ .ID }}"><button>Edit</button></a> 
+          <a href="/delete?id={{ .ID }}" onclick="return confirm('You are going to delete {{ .Nama }}, are you sure?')" ><button>Delete</button></a>
         </td>
       </tr>
     {{ end }}

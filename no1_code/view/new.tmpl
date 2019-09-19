@@ -1,0 +1,34 @@
+{{ define "new" }}
+{{ template "header" }}
+    <form method="POST" action="insert">
+        <table>
+            <tr>
+                <td>Nama</td>
+                <td>:</td>
+                <td><input type="text" name="nama" /></td>
+            </tr>
+            <tr>
+                <td>Email</td>
+                <td>:</td>
+                <td><input type="text" name="email" /></td>
+            </tr>
+            <tr>
+                <td>No Telp</td>
+                <td>:</td>
+                <td><input type="text" name="notlp" /></td>
+            </tr>
+            <tr>
+                <td>Alamat</td>
+                <td>:</td>
+                <td><input type="text" name="alamat" /></td>
+            </tr>
+            <tr>
+                <td></br></td>
+            </tr>
+            <tr>
+                <td rowspan="3"><input type="submit" value="Insert" /></td>
+            </tr>
+        </table>
+    </form>
+{{ template "footer" }}
+{{ end }}

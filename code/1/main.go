@@ -54,6 +54,7 @@ func index(w http.ResponseWriter, r *http.Request) {
 	}
 	querry.Close(context.TODO())
 	tmpl.ExecuteTemplate(w, "index", re)
+	fmt.Println("accessing index page")
 }
 
 func insert(w http.ResponseWriter, r *http.Request) {
@@ -71,6 +72,7 @@ func insert(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 	http.Redirect(w, r, "/", 301)
+	fmt.Println("inserting", r.FormValue("nama"), "succeed")
 }
 
 func edit(w http.ResponseWriter, r *http.Request) {
@@ -89,9 +91,11 @@ func edit(w http.ResponseWriter, r *http.Request) {
 		log.Fatal(err)
 	}
 	tmpl.ExecuteTemplate(w, "edit", kar)
+	fmt.Println("accessing id:", rid, "edit page")
 }
 
 func update(w http.ResponseWriter, r *http.Request) {
+	var rid1 string
 	clientop := options.Client().ApplyURI(connlink)
 	client, err := mongo.Connect(context.TODO(), clientop)
 	if err != nil {
@@ -101,6 +105,7 @@ func update(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "POST" {
 		rid := r.FormValue("id")
 		rid = rid[10:34]
+		rid1 = rid
 		brid, _ := primitive.ObjectIDFromHex(rid)
 		ukar := bson.M{
 			"$set": bson.M{
@@ -116,16 +121,18 @@ func update(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 	http.Redirect(w, r, "/", 301)
+	fmt.Println("updating id:", rid1, "succeed")
 }
 
 func del(w http.ResponseWriter, r *http.Request) {
+	var rid string
 	clientop := options.Client().ApplyURI(connlink)
 	client, err := mongo.Connect(context.TODO(), clientop)
 	if err != nil {
 		log.Fatal(err)
 	}
 	coll := client.Database(dbname).Collection(collname)
-	rid := r.URL.Query().Get("id")
+	rid = r.URL.Query().Get("id")
 	rid = rid[10:34]
 	brid, _ := primitive.ObjectIDFromHex(rid)
 	_, err = coll.DeleteOne(context.TODO(), bson.M{"_id": brid})
@@ -133,13 +140,16 @@ func del(w http.ResponseWriter, r *http.Request) {
 		log.Fatal(err)
 	}
 	http.Redirect(w, r, "/", 301)
+	fmt.Println("deleting id:", rid, "succeed")
 }
 
 func new(w http.ResponseWriter, r *http.Request) {
 	tmpl.ExecuteTemplate(w, "new", nil)
+	fmt.Println("accessing new page")
 }
 
 func main() {
+	fmt.Println("creating new mongodb client")
 	clientop := options.Client().ApplyURI(connlink)
 	client, err := mongo.Connect(context.TODO(), clientop)
 	if err != nil {
@@ -149,8 +159,8 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Println("mongodb online...")
-
+	fmt.Println("mongodb online")
+	fmt.Println("creating router")
 	r := mux.NewRouter()
 	r.HandleFunc("/", index).Methods("GET")
 	r.HandleFunc("/insert", insert).Methods("POST")
@@ -158,5 +168,6 @@ func main() {
 	r.HandleFunc("/edit", edit).Methods("GET")
 	r.HandleFunc("/update", update).Methods("POST")
 	r.HandleFunc("/delete", del).Methods("GET")
+	fmt.Println("ready")
 	http.ListenAndServe(":8000", r)
 }

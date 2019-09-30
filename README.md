@@ -19,3 +19,8 @@ Menghapus data (Delete) berfungsi untuk menghapus data karyawan yang terdaftar p
 
 Tampilan akhir  
 ![1_final.png](/screenshot/1/final.png)  
+  
+  
+**Jawaban Soal No. 2:**  
+![2_publish.png](/screenshot/2/publish.png)  
+![2_subscribe.png](/screenshot/2/subscribe.png)  
